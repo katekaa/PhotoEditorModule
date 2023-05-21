@@ -2,14 +2,9 @@ package com.example.resizemodule
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +12,6 @@ import com.example.resizemodule.filterUtils.FilterManager
 import com.example.resizemodule.resizeUtils.Resizer
 import com.example.resizemodule.resizeUtils.Scaler
 import kotlinx.coroutines.launch
-import java.io.File
 import kotlin.system.measureTimeMillis
 import androidx.lifecycle.MutableLiveData
 
@@ -34,24 +28,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var scaler: Scaler
     private lateinit var recycler: RecyclerView
 
-    private val takeImageResult = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
-        if (isSuccess) {
-            latestTmpUri?.let { uri ->
-                previewImage.setImageURI(uri)
-            }
-        }
-    }
-
-    private val selectImageFromGalleryResult = registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { list ->
-        for (i in list) {
-            println(i)
-        }
-        list.first()?.let { previewImage.setImageURI(it) }
-    }
-
-    private var latestTmpUri: Uri? = null
-
-    private val previewImage by lazy { findViewById<ImageView>(R.id.img_preview1) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -230,25 +206,7 @@ class MainActivity : AppCompatActivity() {
         adapterData.value = changedList
     }
 
-    private fun takeImage() {
-        lifecycleScope.launchWhenStarted {
-            getTmpFileUri().let { uri ->
-                latestTmpUri = uri
-                takeImageResult.launch(uri)
-            }
-        }
-    }
 
-    private fun selectImageFromGallery() = selectImageFromGalleryResult.launch(arrayOf("image/*"))
-
-    private fun getTmpFileUri(): Uri {
-        val tmpFile = File.createTempFile("tmp_image_file", ".png", cacheDir).apply {
-            createNewFile()
-            deleteOnExit()
-        }
-
-        return FileProvider.getUriForFile(applicationContext, "com.example.resizemodule.provider", tmpFile)
-    }
 
     companion object {
         val OUTPUT_IMAGE_WIDTH = 240
