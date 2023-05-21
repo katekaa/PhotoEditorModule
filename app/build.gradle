@@ -7,18 +7,20 @@ android {
     namespace 'com.example.resizemodule'
     compileSdk 33
 
-    buildToolsVersion '29.0.2'
+
     defaultConfig {
         applicationId "com.example.resizemodule"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
 
-        renderscriptTargetApi 18
-        renderscriptSupportModeEnabled true
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        renderscriptTargetApi 24
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {
@@ -34,6 +36,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    sourceSets {
+        main {
+            renderscript {
+                srcDirs 'src/main/rs'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -46,4 +55,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.activity:activity-ktx:1.7.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.7"
 }

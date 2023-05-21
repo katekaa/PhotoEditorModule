@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(com.example.diplomtest)
+#pragma rs java_package_name(com.example.resizemodule)
 
 //multipliers to convert a RGB colors to black and white
 const static float3 gMonoMult = {0.299f, 0.587f, 0.114f};

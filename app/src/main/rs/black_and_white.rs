@@ -11,4 +11,3 @@ void root(const uchar4* in, uchar4* out) {
     out->a = pixelf.a;
 }
 
-

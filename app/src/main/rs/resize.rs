@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(com.example.diplomtest)
+#pragma rs java_package_name(com.example.resizemodule)
 
 // Input and output allocation
 rs_allocation input;
